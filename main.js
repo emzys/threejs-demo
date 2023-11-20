@@ -41,6 +41,19 @@ scene.add(lightHelper, gridHelper);
 
 const constrols = new OrbitControls(camera, renderer.domElement);
 
+const addStar = () => {
+  const geometry = new THREE.SphereGeometry(0.25, 20, 20);
+  const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  const star = new THREE.Mesh(geometry, material);
+  const [a, b, c] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
+  star.position.set(a, b, c);
+  scene.add(star);
+};
+
+Array(400).fill().forEach(addStar);
+
 const animate = () => {
   requestAnimationFrame(animate);
 
