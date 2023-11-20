@@ -2,6 +2,7 @@ import "./style.css";
 import * as THREE from "three";
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color("#ADD8E6");
 
 const camera = new THREE.PerspectiveCamera(
   75,
