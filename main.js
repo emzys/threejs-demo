@@ -1,5 +1,6 @@
 import "./style.css";
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const scene = new THREE.Scene();
 // scene.background = new THREE.Color("#ADD8E6");
@@ -38,12 +39,16 @@ const lightHelper = new THREE.PointLightHelper(pointLight);
 const gridHelper = new THREE.GridHelper(200, 50);
 scene.add(lightHelper, gridHelper);
 
+const constrols = new OrbitControls(camera, renderer.domElement);
+
 const animate = () => {
   requestAnimationFrame(animate);
 
   torus.rotation.x += 0.01;
   torus.rotation.y += 0.005;
   torus.rotation.z += 0.01;
+
+  constrols.update();
 
   renderer.render(scene, camera);
 };
