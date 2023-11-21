@@ -61,15 +61,63 @@ const addStar = () => {
 
 Array(400).fill().forEach(addStar);
 
+// Background
+const spaceTexture = new THREE.TextureLoader().load("nebula.avif");
+scene.background = spaceTexture;
+
+// Avatar
+const pandaTexture = new THREE.TextureLoader().load("redpanda.jpeg");
+const panda = new THREE.Mesh(
+  new THREE.BoxGeometry(3, 3, 3),
+  new THREE.MeshBasicMaterial({ map: pandaTexture })
+);
+scene.add(panda);
+panda.position.z = -5;
+panda.position.x = 2;
+
+// Moon
+const moonTexture = new THREE.TextureLoader().load("red-moon-surface.jpeg");
+const normalTexture = new THREE.TextureLoader().load("normal.jpg");
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(3, 32, 32),
+  new THREE.MeshStandardMaterial({
+    map: moonTexture,
+    normalMap: normalTexture,
+  })
+);
+scene.add(moon);
+moon.position.z = 30;
+moon.position.setX(-10);
+
+// Scroll Animation
+const moveCamera = () => {
+  const t = document.body.getBoundingClientRect().top;
+  moon.rotation.x += 0.05;
+  moon.rotation.y += 0.075;
+  moon.rotation.z += 0.05;
+
+  panda.rotation.y += 0.01;
+  panda.rotation.z += 0.01;
+
+  camera.position.z = t * -0.01;
+  camera.position.x = t * -0.0002;
+  camera.rotation.y = t * -0.0002;
+};
+
+document.body.onscroll = moveCamera;
+moveCamera();
+
+// Animation Loop
 const animate = () => {
   requestAnimationFrame(animate);
 
   torus.rotation.x += 0.01;
   torus.rotation.y += 0.005;
   torus.rotation.z += 0.01;
-
-  constrols.update();
+  moon.rotation.x += 0.005;
+  // controls.update();
 
   renderer.render(scene, camera);
 };
+
 animate();
